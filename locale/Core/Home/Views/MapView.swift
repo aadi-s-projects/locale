@@ -13,9 +13,9 @@ struct MapView: View {
     @State private var visibleRegion: MKCoordinateRegion?
     
     @State private var selection : String?
-    
-    @EnvironmentObject var localSearchService : LocalSearchService
     @EnvironmentObject var viewModel : PostViewModel
+    
+    @Binding var tabSelection: Int
     
     var body: some View {
         NavigationStack {
@@ -49,7 +49,7 @@ struct MapView: View {
                              
                              Spacer()
                          }
-                         DropDownView(hint: "Select", options: ["Chill", "2", "3"], selection: $selection)
+                         DropDownView(hint: "Select", options: ["Chill", "Busy"], selection: $selection)
                              .onChange(of: selection) { oldValue, newValue in
                                  Task {
                                      await self.viewModel.fetchData()
@@ -62,27 +62,11 @@ struct MapView: View {
                 .padding(.bottom)
                 .background(.thinMaterial)
             }
-            .overlay(alignment: .bottomTrailing) {
-                NavigationLink {
-                    PostView()
-                        .environmentObject(LocalSearchService())
-                        .environmentObject(PostViewModel())
-                } label: {
-                    ZStack {
-                        Circle()
-                            .frame(width: 50, height: 50)
-                        Image(systemName: "plus")
-                            .foregroundColor(.white)
-                    }
-                }
-                .padding(7)
-            }
         }
     }
 }
 
 #Preview {
-    MapView()
-        .environmentObject(LocalSearchService())
+    MapView(tabSelection: .constant(1))
         .environmentObject(PostViewModel())
 }

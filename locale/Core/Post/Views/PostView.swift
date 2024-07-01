@@ -18,7 +18,8 @@ struct PostView: View {
     @State private var selectedLandmark : Landmark?
     
     @EnvironmentObject var viewModel : PostViewModel
-    @Environment(\.dismiss) var dismiss
+    
+    @Binding var tabSelection: Int
     
     var body: some View {
         NavigationStack {
@@ -56,7 +57,7 @@ struct PostView: View {
                         let post = Post(name: selectedLandmark!.name, title: selectedLandmark!.title, coordinate: geoPoint, tag: tag, description: description)
                         Task {
                             try await self.viewModel.addPost(post: post)
-                            dismiss()
+                            tabSelection = 1
                         }
                     }
                     .disabled(!formIsValid)
@@ -76,7 +77,7 @@ extension PostView: AuthenticationFormProtocol {
 }
 
 #Preview {
-    PostView()
+    PostView(tabSelection: .constant(2))
         .environmentObject(LocalSearchService())
         .environmentObject(PostViewModel())
 }

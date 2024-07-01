@@ -24,7 +24,7 @@ struct LandmarkListView: View {
                 .onTapGesture {
                     localSearchService.landmark = landmark
                     withAnimation {
-                        localSearchService.updateRegion(MKCoordinateRegion.regionFromLandmark(landmark))
+                        localSearchService.region = MKCoordinateRegion.regionFromLandmark(landmark)
                     }
                 }
             }

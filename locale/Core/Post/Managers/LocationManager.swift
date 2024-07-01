@@ -12,7 +12,7 @@ import MapKit
 class LocationManager: NSObject, ObservableObject {
     
     let locationManager = CLLocationManager()
-    @Published var region = MKCoordinateRegion.defaultRegion()
+    @Published var region =  MKCoordinateRegion.defaultRegion()
     
     override init() {
         super.init()
@@ -29,17 +29,17 @@ extension LocationManager: CLLocationManagerDelegate {
     private func checkAuthorization() {
         
         switch locationManager.authorizationStatus {
-            case .notDetermined:
-                locationManager.requestWhenInUseAuthorization()
-            case .restricted:
-                print("Your location is restricted.")
-            case .denied:
-                print("Your have denied app to access location services.")
-            case .authorizedAlways, .authorizedWhenInUse:
-                guard let location = locationManager.location else { return }
-                region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25))
-            @unknown default:
-                break
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            print("Your location is restricted.")
+        case .denied:
+            print("Your have denied app to access location services.")
+        case .authorizedAlways, .authorizedWhenInUse:
+            guard let location = locationManager.location else { return }
+            region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25))
+        @unknown default:
+            break
         }
         
     }
@@ -60,17 +60,4 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
     }
-    
-}
-
-extension MKCoordinateRegion {
-    
-    static func defaultRegion() -> MKCoordinateRegion {
-        MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.33233141, longitude: -122.03121860), span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
-    }
-    
-    static func regionFromLandmark(_ landmark: Landmark) -> MKCoordinateRegion {
-        MKCoordinateRegion(center: landmark.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
-    }
-    
 }

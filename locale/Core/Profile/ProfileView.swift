@@ -11,6 +11,8 @@ struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var showingDeleteAlert = false
     
+    @Binding var tabSelection: Int
+    
     var body: some View {
         if let user = viewModel.currentUser {
             VStack(spacing: 50) {
@@ -44,5 +46,5 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView()
+    ProfileView(tabSelection: .constant(3))
 }

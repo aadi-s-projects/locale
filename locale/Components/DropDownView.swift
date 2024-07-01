@@ -105,5 +105,5 @@ struct DropDownView: View {
 }
 
 #Preview {
-    MapView()
+    MapView(tabSelection : .constant(1))
 }

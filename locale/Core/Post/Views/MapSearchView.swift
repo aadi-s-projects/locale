@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct MapSearchView: View {
-    @EnvironmentObject var localSearchService:  LocalSearchService
+    @EnvironmentObject var localSearchService: LocalSearchService
     @State private var search: String = ""
     @Binding var selectedLandmark : Landmark?
     @EnvironmentObject var viewModel : PostViewModel
@@ -27,19 +27,7 @@ struct MapSearchView: View {
             
             if !localSearchService.landmarks.isEmpty {
                 LandmarkListView()
-            }/*
-            Map (position: localSearchService.position) {
-                UserAnnotation()
-                ForEach(localSearchService.landmarks, id: \.self) { landmark in
-                    Annotation("", coordinate: landmark.coordinate){
-                        Image(systemName: "mappin.circle.fill")
-                            .foregroundColor(localSearchService.landmark == landmark ? .red : .blue)
-                            .scaleEffect(localSearchService.landmark == landmark ? 2: 1)
-                    }
-                }
-            }*/
-            
-            
+            }
             Map(coordinateRegion: $localSearchService.region, showsUserLocation: true, annotationItems: localSearchService.landmarks) { landmark in
                 MapAnnotation(coordinate: landmark.coordinate) {
                     Image(systemName: "mappin.circle.fill")
@@ -52,13 +40,6 @@ struct MapSearchView: View {
                     .buttonBorderShape(.circle)
                 MapCompass()
                 MapScaleView()
-            }
-            .onChange(of: localSearchService.landmark) { oldLandmark, newLandmark in
-                if let landmark = newLandmark {
-                    withAnimation {
-                        localSearchService.updateRegion(MKCoordinateRegion.regionFromLandmark(landmark))
-                    }
-                }
             }
             .overlay(alignment: .bottomTrailing) {
                 Button {
