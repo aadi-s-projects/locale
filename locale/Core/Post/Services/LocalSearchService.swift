@@ -10,7 +10,6 @@ import MapKit
 import Combine
 
 class LocalSearchService: ObservableObject {
-    
     @Published var region: MKCoordinateRegion = MKCoordinateRegion.defaultRegion()
     let locationManager = LocationManager()
     var cancellables = Set<AnyCancellable>()
@@ -18,8 +17,17 @@ class LocalSearchService: ObservableObject {
     @Published var landmark: Landmark?
     
     init() {
-        locationManager.$region.assign(to: \.region, on: self)
+        locationManager.$region
+            .sink { [weak self] newRegion in
+                self?.updateRegion(newRegion)
+            }
             .store(in: &cancellables)
+    }
+    
+    func updateRegion(_ newRegion: MKCoordinateRegion) {
+        DispatchQueue.main.async {
+            self.region = newRegion
+        }
     }
     
     func search(query: String) {

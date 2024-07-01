@@ -11,14 +11,23 @@ import MapKit
 struct MapView: View {
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var visibleRegion: MKCoordinateRegion?
-    @State private var searchResults: [MKMapItem] = []
     
     @State private var selection : String?
+    
+    @EnvironmentObject var localSearchService : LocalSearchService
+    @EnvironmentObject var viewModel : PostViewModel
     
     var body: some View {
         NavigationStack {
             Map (position: $position) {
                 UserAnnotation()
+                if selection != nil {
+                    ForEach(viewModel.posts, id: \.self) { post in
+                        if post.tag == selection {
+                            Marker(post.name, systemImage: "mappin", coordinate: CLLocationCoordinate2D(latitude: post.coordinate.latitude, longitude: post.coordinate.longitude))
+                        }
+                    }
+                }
             }
             .mapStyle(.standard)
             .mapControls {
@@ -26,24 +35,28 @@ struct MapView: View {
                     .buttonBorderShape(.circle)
                 MapCompass()
                 MapScaleView()
-                
-            }
-            .onAppear {
-                CLLocationManager().requestWhenInUseAuthorization()
             }
             .onMapCameraChange { context in
                 visibleRegion = context.region
             }
             .safeAreaInset(edge: .top) {
                 HStack{
-                    VStack (alignment: .leading) {
-                        Text("Vibe Selector")
-                            .font(.title)
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        DropDownView(hint: "Select", options: ["1", "2", "3"], selection: $selection)
-                        
-                    }
-                    Spacer()
+                     VStack {
+                         HStack{
+                             Text("Vibe Selector")
+                             .font(.title)
+                             .fontWeight(.bold)
+                             
+                             Spacer()
+                         }
+                         DropDownView(hint: "Select", options: ["Chill", "2", "3"], selection: $selection)
+                             .onChange(of: selection) { oldValue, newValue in
+                                 Task {
+                                     await self.viewModel.fetchData()
+                                 }
+                             }
+                     }
+
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
@@ -52,11 +65,13 @@ struct MapView: View {
             .overlay(alignment: .bottomTrailing) {
                 NavigationLink {
                     PostView()
+                        .environmentObject(LocalSearchService())
+                        .environmentObject(PostViewModel())
                 } label: {
                     ZStack {
                         Circle()
                             .frame(width: 50, height: 50)
-                        Image(systemName: "envelope.fill")
+                        Image(systemName: "plus")
                             .foregroundColor(.white)
                     }
                 }
@@ -64,23 +79,10 @@ struct MapView: View {
             }
         }
     }
-    
-    func search(for query: String) {
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = query
-        request.resultTypes = .pointOfInterest
-        request.region = visibleRegion ?? MKCoordinateRegion(
-            center: .init(latitude: 37.3346, longitude: -122.009102),
-            span: MKCoordinateSpan(latitudeDelta: 0.0125, longitudeDelta: 0.0125))
-        
-        Task {
-            let search = MKLocalSearch(request: request)
-            let response = try? await search.start()
-            searchResults = response?.mapItems ?? []
-        }
-    }
 }
 
 #Preview {
     MapView()
+        .environmentObject(LocalSearchService())
+        .environmentObject(PostViewModel())
 }

@@ -7,11 +7,18 @@
 
 import SwiftUI
 import MapKit
+import Firebase
+import FirebaseFirestore
 
 struct PostView: View {
     @State private var search: String = ""
     @State private var tag: String = ""
     @State private var description: String = ""
+    @EnvironmentObject var localSearchService:  LocalSearchService
+    @State private var selectedLandmark : Landmark?
+    
+    @EnvironmentObject var viewModel : PostViewModel
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         NavigationStack {
@@ -23,32 +30,40 @@ struct PostView: View {
                         .padding(.horizontal)
                     Spacer()
                 }
-                
-                TextField("Search", text: $search)
-                    .textFieldStyle(.roundedBorder)
-                    .onSubmit {
-                        
-                    }
-                    .padding(.horizontal)
-                
-                List(1...20, id: \.self) { index in
-                    Text("Landmarks will be displayed here.")
-                }
-                
-                Spacer()
-                /*
                 Form {
-                    TextField("Tag", text: $tag)
-                    TextEditor(text: $description)
+                    if selectedLandmark != nil {
+                        NavigationLink {
+                            MapSearchView(selectedLandmark: $selectedLandmark)
+                                .environmentObject(LocalSearchService())
+                                .environmentObject(PostViewModel())
+                                .navigationBarBackButtonHidden()
+                        } label: {
+                            Text(selectedLandmark!.name)
+                        }
+                    } else {
+                        NavigationLink("Select Address") {
+                            MapSearchView(selectedLandmark: $selectedLandmark)
+                                .environmentObject(LocalSearchService())
+                                .environmentObject(PostViewModel())
+                                .navigationBarBackButtonHidden()
+                        }
+                    }
+                    TextField("Vibe", text: $tag)
+                    TextField("Description", text: $description, axis: .vertical)
+                        .lineLimit(5)
                     Button("Post") {
-                        
+                        let geoPoint = GeoPoint(latitude: selectedLandmark!.coordinate.latitude, longitude: selectedLandmark!.coordinate.longitude)
+                        let post = Post(name: selectedLandmark!.name, title: selectedLandmark!.title, coordinate: geoPoint, tag: tag, description: description)
+                        Task {
+                            try await self.viewModel.addPost(post: post)
+                            dismiss()
+                        }
                     }
                     .disabled(!formIsValid)
                     .opacity(formIsValid ? 1.0 : 0.5)
                 }
                 .cornerRadius(8)
                 .scrollDisabled(true)
-                 */
             }
         }
     }
@@ -56,10 +71,12 @@ struct PostView: View {
 
 extension PostView: AuthenticationFormProtocol {
     var formIsValid: Bool {
-        return true
+        return selectedLandmark != nil && !description.isEmpty
     }
 }
 
 #Preview {
     PostView()
+        .environmentObject(LocalSearchService())
+        .environmentObject(PostViewModel())
 }

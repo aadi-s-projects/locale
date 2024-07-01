@@ -6,3 +6,14 @@
 //
 
 import Foundation
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+
+struct Post: Identifiable, Codable, Hashable {
+    @DocumentID var id: String? = UUID().uuidString
+    var name : String
+    var title : String
+    var coordinate : GeoPoint
+    var tag : String
+    var description : String
+}

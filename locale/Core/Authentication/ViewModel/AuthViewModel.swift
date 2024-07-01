@@ -2,7 +2,7 @@
 //  AuthViewModel.swift
 //  locale
 //
-//  Created by Sachin Gala on 6/26/24.
+//  Created by Aadi Gala on 6/26/24.
 //
 
 import Foundation

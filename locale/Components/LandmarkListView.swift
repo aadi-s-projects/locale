@@ -6,13 +6,32 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct LandmarkListView: View {
+    
+    @EnvironmentObject var localSearchService: LocalSearchService
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            List(localSearchService.landmarks) { landmark in
+                VStack(alignment: .leading) {
+                    Text(landmark.name)
+                    Text(landmark.title)
+                        .opacity(0.5)
+                }
+                .listRowBackground(localSearchService.landmark == landmark ? Color(UIColor.lightGray): Color.white)
+                .onTapGesture {
+                    localSearchService.landmark = landmark
+                    withAnimation {
+                        localSearchService.updateRegion(MKCoordinateRegion.regionFromLandmark(landmark))
+                    }
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    LandmarkListView()
+    LandmarkListView().environmentObject(LocalSearchService())
 }

@@ -8,12 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var viewModel : AuthViewModel
+    @EnvironmentObject var authViewModel : AuthViewModel
+    @EnvironmentObject var postViewModel : PostViewModel
     
     var body: some View {
         Group {
-            if viewModel.userSession != nil {
-                ProfileView()
+            if authViewModel.userSession != nil {
+                TabView {
+                    MapView()
+                        .environmentObject(PostViewModel())
+                        .environmentObject(LocalSearchService())
+                        .tabItem {
+                            Image(systemName: "map")
+                            Text("Map")
+                        }
+                    ProfileView()
+                        .tabItem {
+                            Image(systemName: "person.fill")
+                            Text("Profile")
+                        }
+                }
             } else {
                 LoginView()
             }

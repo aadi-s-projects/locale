@@ -9,53 +9,77 @@ import SwiftUI
 import MapKit
 
 struct MapSearchView: View {
-        @EnvironmentObject var localSearchService:  LocalSearchService
-        @State private var search: String = ""
-        
-        var body: some View {
-            NavigationStack {
-                VStack {
-                    TextField("Search", text: $search)
-                        .textFieldStyle(.roundedBorder)
-                        .onSubmit {
-                            localSearchService.search(query: search)
-                        }.padding()
-                    
-                    
-                    if !localSearchService.landmarks.isEmpty {
-                        LandmarkListView()
+    @EnvironmentObject var localSearchService:  LocalSearchService
+    @State private var search: String = ""
+    @Binding var selectedLandmark : Landmark?
+    @EnvironmentObject var viewModel : PostViewModel
+
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        VStack {
+            TextField("Search", text: $search)
+                .textFieldStyle(.roundedBorder)
+                .onSubmit {
+                    localSearchService.search(query: search)
+                }.padding()
+            
+            
+            if !localSearchService.landmarks.isEmpty {
+                LandmarkListView()
+            }/*
+            Map (position: localSearchService.position) {
+                UserAnnotation()
+                ForEach(localSearchService.landmarks, id: \.self) { landmark in
+                    Annotation("", coordinate: landmark.coordinate){
+                        Image(systemName: "mappin.circle.fill")
+                            .foregroundColor(localSearchService.landmark == landmark ? .red : .blue)
+                            .scaleEffect(localSearchService.landmark == landmark ? 2: 1)
                     }
-                    
-                    Map(coordinateRegion: $localSearchService.region, showsUserLocation: true, annotationItems: localSearchService.landmarks) { landmark in
-                        MapAnnotation(coordinate: landmark.coordinate) {
-                            Image(systemName: "mappin.circle.fill")
-                                .foregroundColor(localSearchService.landmark == landmark ? .red : .blue)
-                                .scaleEffect(localSearchService.landmark == landmark ? 2: 1)
-                        }
-                       
-                    }
-                    .overlay(alignment: .bottomTrailing) {
-                        NavigationLink {
-                            
-                            
-                            PostView()
-                        } label: {
-                            ZStack {
-                                Circle()
-                                    .frame(width: 50, height: 50)
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.white)
-                            }
-                        }
-                        .padding(7)
-                    }
-                    
-                    Spacer()
+                }
+            }*/
+            
+            
+            Map(coordinateRegion: $localSearchService.region, showsUserLocation: true, annotationItems: localSearchService.landmarks) { landmark in
+                MapAnnotation(coordinate: landmark.coordinate) {
+                    Image(systemName: "mappin.circle.fill")
+                        .foregroundColor(localSearchService.landmark == landmark ? .red : .blue)
+                        .scaleEffect(localSearchService.landmark == landmark ? 2 : 1)
                 }
             }
+            .mapControls {
+                MapUserLocationButton()
+                    .buttonBorderShape(.circle)
+                MapCompass()
+                MapScaleView()
+            }
+            .onChange(of: localSearchService.landmark) { oldLandmark, newLandmark in
+                if let landmark = newLandmark {
+                    withAnimation {
+                        localSearchService.updateRegion(MKCoordinateRegion.regionFromLandmark(landmark))
+                    }
+                }
+            }
+            .overlay(alignment: .bottomTrailing) {
+                Button {
+                    selectedLandmark = localSearchService.landmark
+                    dismiss()
+                } label: {
+                    ZStack {
+                        Circle()
+                            .frame(width: 50, height: 50)
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.white)
+                    }
+                }
+                .padding(7)
+            }
         }
+    }
 }
 
 #Preview {
-    MapSearchView().environmentObject(LocalSearchService())
+    MapSearchView(selectedLandmark: .constant(nil))
+        .environmentObject(LocalSearchService())
+        .environmentObject(PostViewModel())
 }
