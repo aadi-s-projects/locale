@@ -17,35 +17,52 @@ struct SignUpView: View {
     
     var body: some View {
         VStack {
-            Text("Sign Up")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+            Spacer()
             
-            Form {
-                TextField("Full Name", text: $fullname)
-                TextField("Email", text: $email)
-                    .autocapitalization(.none)
-                SecureField("Password", text: $password)
-                SecureField("Confirm Password", text: $confirmation)
-                Button("Sign Up") {
-                    Task {
-                        try await viewModel.createUser(withEmail: email, password: password, fullname: fullname)
-                    }
-                }
-                .disabled(!formIsValid)
-                .opacity(formIsValid ? 1.0 : 0.5)
+            HStack{
+                Text("welcome to locale")
+                    .font(Font.custom("Manrope-Medium", size: CGFloat(30)))
+                Spacer()
+                Image(systemName: "mappin.circle.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 30)
+                    .padding(.horizontal, 5)
             }
-            .cornerRadius(8)
-            .scrollDisabled(true)
+            .padding(.bottom)
+            
+            CustomTextFieldView(titleKey: "full name", textSize: 18, text: $fullname)
+                .padding(.bottom, 5)
+                .autocorrectionDisabled()
+            CustomTextFieldView(titleKey: "email", textSize: 18, text: $email)
+                .padding(.bottom, 5)
+                .autocorrectionDisabled()
+            CustomSecureFieldView(titleKey: "password", textSize: 18, text: $password)
+                .padding(.bottom, 5)
+                .autocorrectionDisabled()
+            CustomSecureFieldView(titleKey: "confirm password", textSize: 18, text: $confirmation)
+                .padding(.bottom, 5)
+                .autocorrectionDisabled()
+            
+            Button {
+                Task {
+                    try await viewModel.createUser(withEmail: email, password: password, fullname: fullname)
+                }
+            } label: {
+                CustomButtonLabel(label: "sign up", textSize: 18, disabled: !formIsValid)
+            }
+            .disabled(!formIsValid)
+            
+            Spacer()
             
             Button {
                 dismiss()
             } label: {
-                Text("Log In")
+                CustomButtonLabel(label: "log in", textSize: 18, primary: false)
             }
-
         }
         .padding()
+        .preferredColorScheme(.dark)
     }
 }
 

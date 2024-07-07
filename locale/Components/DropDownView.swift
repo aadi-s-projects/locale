@@ -12,7 +12,6 @@ struct DropDownView: View {
     var options: [String]
     var anchor: Anchor = .bottom
     var maxWidth: CGFloat = UIScreen.main.bounds.width - 25
-    var cornerRadius: CGFloat = 15
     @Binding var selection: String?
     @State private var showOptions: Bool = false
     @Environment(\.colorScheme) private var scheme
@@ -31,6 +30,7 @@ struct DropDownView: View {
                     Text(selection ?? hint)
                         .foregroundStyle(selection == nil ? .gray : .primary)
                         .lineLimit(1)
+                        .font(Font.custom("Manrope-Light", size: 18))
                     
                     Spacer(minLength: 0)
                     
@@ -39,7 +39,7 @@ struct DropDownView: View {
                         .foregroundColor(.gray)
                         .rotationEffect(.init(degrees: showOptions ? -180 : 0))
                 }
-                .padding(.horizontal, 15)
+                .padding(.horizontal)
                 .frame(width: size.width, height: size.height)
                 .contentShape(.rect)
                 .onTapGesture {
@@ -49,7 +49,7 @@ struct DropDownView: View {
                         showOptions.toggle()
                     }
                 }
-                .background(scheme == .dark ? .black : .white)
+                .background(.black)
                 .zIndex(10)
                 
                 if showOptions && anchor == .bottom {
@@ -58,31 +58,35 @@ struct DropDownView: View {
             }
             .clipped()
             .contentShape(.rect)
-            .background((scheme == .dark ? Color.black : Color.white).shadow(.drop(color: .primary.opacity(0.15), radius: 4)), in: .rect(cornerRadius: cornerRadius))
+            .background(.black, in: .rect(cornerRadius: 0))
             .frame(height: size.height, alignment: anchor == .top ? .bottom : .top)
+            .border(Color(UIColor.systemGray4), width: 0.5)
             
         }
-        .frame(width: maxWidth, height: 50)
+        .frame(height: 60)
         .zIndex(zIndex)
     }
     
     @ViewBuilder
     func OptionsView() -> some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 0) {
             ForEach(options, id: \.self) { option in
-                HStack(spacing: 0) {
-                    Text(option)
-                        .lineLimit(1)
-                    
-                    Spacer(minLength: 0)
-                    
-                    Image(systemName: "checkmark")
-                        .opacity(selection == option ? 1 : 0)
-                        .font(.caption)
+                VStack{
+                    HStack(spacing: 0) {
+                        Text(option.lowercased())
+                            .font(Font.custom("Manrope-Light", size: 18))
+                        
+                        Spacer()
+                        
+                        Image(systemName: "checkmark")
+                            .opacity(selection == option ? 1 : 0)
+                            .font(.caption)
+                    }
+                    .padding()
                 }
                 .foregroundStyle(selection == option ? Color.primary : Color.gray)
                 .animation(.none, value: selection)
-                .frame(height: 40)
+                .frame(height: 60)
                 .contentShape(.rect)
                 .onTapGesture {
                     withAnimation(.snappy) {
@@ -90,11 +94,9 @@ struct DropDownView: View {
                         showOptions = false
                     }
                 }
-                
+                .border(Color(UIColor.systemGray4), width: 0.5)
             }
         }
-        .padding(.horizontal, 15)
-        .padding(.vertical, 5)
         .transition(.move(edge: anchor == .top ? .bottom : .top))
     }
     

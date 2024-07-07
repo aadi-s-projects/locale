@@ -18,12 +18,11 @@ struct MapSearchView: View {
     
     var body: some View {
         VStack {
-            TextField("Search", text: $search)
-                .textFieldStyle(.roundedBorder)
+            CustomTextFieldView(titleKey: "search", textSize: 18, text: $search)
                 .onSubmit {
                     localSearchService.search(query: search)
-                }.padding()
-            
+                }
+                .padding()
             
             if !localSearchService.landmarks.isEmpty {
                 LandmarkListView()
@@ -56,6 +55,7 @@ struct MapSearchView: View {
                 .padding(7)
             }
         }
+        .preferredColorScheme(.dark)
     }
 }
 

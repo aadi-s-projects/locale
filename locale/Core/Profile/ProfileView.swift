@@ -15,16 +15,12 @@ struct ProfileView: View {
     
     var body: some View {
         if let user = viewModel.currentUser {
-            VStack(spacing: 50) {
-                Text(user.fullname)
-                Text(user.email)
-                Button("Log Out")
-                {
-                    viewModel.signOut()
-                }
-                Button("Delete Account")
+            VStack() {
+                Button
                 {
                     showingDeleteAlert = true
+                } label: {
+                    CustomButtonLabel(label: "delete account", textSize: 18, primary: false, textColor: .red)
                 }
                 .alert(isPresented: $showingDeleteAlert) {
                     Alert(
@@ -39,12 +35,40 @@ struct ProfileView: View {
                     )
                 }
                 
+                Spacer()
+                
+                HStack{
+                    VStack (alignment: .leading){
+                        Text(user.fullname.lowercased())
+                            .font(Font.custom("Manrope-Bold", size: CGFloat(60)))
+                        Text(user.email.lowercased())
+                            .font(Font.custom("Manrope-Light", size: CGFloat(30)))
+                            .foregroundStyle(.white)
+                    }
+                    Spacer()
+                }
+                .padding(.bottom, 30)
+                
+                Button
+                {
+                    viewModel.signOut()
+                } label: {
+                    CustomButtonLabel(label: "log out", textSize: 18)
+                }
+                .padding(.bottom, 150)
+                
+                
+                Spacer()
+                
                 
             }
+            .preferredColorScheme(.dark)
+            .padding()
         }
     }
 }
 
 #Preview {
     ProfileView(tabSelection: .constant(3))
+        .environmentObject(AuthViewModel())
 }

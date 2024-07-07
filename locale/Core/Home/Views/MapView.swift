@@ -2,7 +2,7 @@
 //  MapView.swift
 //  locale
 //
-//  Created by Sachin Gala on 6/29/24.
+//  Created by Sachin Gala on 7/4/24.
 //
 
 import SwiftUI
@@ -17,14 +17,17 @@ struct MapView: View {
     
     @Binding var tabSelection: Int
     
+    @State private var selectedPost : Post?
+    
     var body: some View {
         NavigationStack {
-            Map (position: $position) {
+            Map(position: $position, selection: $selectedPost) {
                 UserAnnotation()
                 if selection != nil {
                     ForEach(viewModel.posts, id: \.self) { post in
                         if post.tag == selection {
                             Marker(post.name, systemImage: "mappin", coordinate: CLLocationCoordinate2D(latitude: post.coordinate.latitude, longitude: post.coordinate.longitude))
+                                .tag(post)
                         }
                     }
                 }
@@ -43,26 +46,31 @@ struct MapView: View {
                 HStack{
                      VStack {
                          HStack{
-                             Text("Vibe Selector")
-                             .font(.title)
-                             .fontWeight(.bold)
+                             Text("find locales by vibe")
+                                 .font(Font.custom("Manrope-Bold", size: CGFloat(30)))
                              
                              Spacer()
                          }
-                         DropDownView(hint: "Select", options: ["Chill", "Busy"], selection: $selection)
+                         .padding(.top)
+                         DropDownView(hint: "select a vibe", options: ["chill", "busy", "day", "night"], selection: $selection)
                              .onChange(of: selection) { oldValue, newValue in
                                  Task {
                                      await self.viewModel.fetchData()
                                  }
                              }
+                             .padding(.top, -10)
                      }
 
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
-                .background(.thinMaterial)
+                .background(.black)
+            }
+            .sheet(item: $selectedPost) { post in
+                PostDetailsView(post: post)
             }
         }
+        .preferredColorScheme(.dark)
     }
 }
 
@@ -70,3 +78,5 @@ struct MapView: View {
     MapView(tabSelection: .constant(1))
         .environmentObject(PostViewModel())
 }
+
+

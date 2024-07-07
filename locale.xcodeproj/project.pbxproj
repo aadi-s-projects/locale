@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		894031172C374ADD009AF317 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894031162C374ADD009AF317 /* MapView.swift */; };
+		8940311B2C39ABA5009AF317 /* PostDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8940311A2C39ABA5009AF317 /* PostDetailsView.swift */; };
 		8972A5CF2C322496006F28B8 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8972A5CE2C322496006F28B8 /* PostView.swift */; };
 		8972A5D42C324F1E006F28B8 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8972A5D32C324F1E006F28B8 /* LocationManager.swift */; };
 		8972A5D62C3255F3006F28B8 /* MapSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8972A5D52C3255F3006F28B8 /* MapSearchView.swift */; };
@@ -16,7 +18,13 @@
 		8972A5E32C3277A3006F28B8 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8972A5E22C3277A3006F28B8 /* PostViewModel.swift */; };
 		8972A5E52C32786C006F28B8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8972A5E42C32786C006F28B8 /* Post.swift */; };
 		89D79AE52C3353D300C75887 /* MKCoordinateRegion+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D79AE42C3353D300C75887 /* MKCoordinateRegion+Extensions.swift */; };
-		89E244362C30733600DD0511 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E244352C30733600DD0511 /* MapView.swift */; };
+		89D79AE72C363F9900C75887 /* CustomTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D79AE62C363F9900C75887 /* CustomTextFieldView.swift */; };
+		89D79AF72C36448E00C75887 /* Manrope-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89D79AEB2C36448E00C75887 /* Manrope-Bold.ttf */; };
+		89D79AFA2C36448E00C75887 /* Manrope-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89D79AEE2C36448E00C75887 /* Manrope-Light.ttf */; };
+		89D79AFB2C36448E00C75887 /* Manrope-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89D79AEF2C36448E00C75887 /* Manrope-Medium.ttf */; };
+		89D79AFC2C36448E00C75887 /* Manrope-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89D79AF02C36448E00C75887 /* Manrope-Regular.ttf */; };
+		89D79B032C365E9D00C75887 /* CustomSecureFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D79B022C365E9D00C75887 /* CustomSecureFieldView.swift */; };
+		89D79B052C36633100C75887 /* CustomButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D79B042C36633100C75887 /* CustomButtonLabel.swift */; };
 		89E244392C32079100DD0511 /* DropDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E244382C32079100DD0511 /* DropDownView.swift */; };
 		89E4754E2C2B829A0076C46D /* localeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E4754D2C2B829A0076C46D /* localeApp.swift */; };
 		89E475502C2B829A0076C46D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E4754F2C2B829A0076C46D /* ContentView.swift */; };
@@ -34,6 +42,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		894031162C374ADD009AF317 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		8940311A2C39ABA5009AF317 /* PostDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsView.swift; sourceTree = "<group>"; };
 		8972A5CE2C322496006F28B8 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		8972A5D32C324F1E006F28B8 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		8972A5D52C3255F3006F28B8 /* MapSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchView.swift; sourceTree = "<group>"; };
@@ -43,7 +53,14 @@
 		8972A5E22C3277A3006F28B8 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		8972A5E42C32786C006F28B8 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		89D79AE42C3353D300C75887 /* MKCoordinateRegion+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKCoordinateRegion+Extensions.swift"; sourceTree = "<group>"; };
-		89E244352C30733600DD0511 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		89D79AE62C363F9900C75887 /* CustomTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextFieldView.swift; sourceTree = "<group>"; };
+		89D79AEB2C36448E00C75887 /* Manrope-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Bold.ttf"; sourceTree = "<group>"; };
+		89D79AEE2C36448E00C75887 /* Manrope-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Light.ttf"; sourceTree = "<group>"; };
+		89D79AEF2C36448E00C75887 /* Manrope-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Medium.ttf"; sourceTree = "<group>"; };
+		89D79AF02C36448E00C75887 /* Manrope-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Regular.ttf"; sourceTree = "<group>"; };
+		89D79B012C364F2100C75887 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		89D79B022C365E9D00C75887 /* CustomSecureFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureFieldView.swift; sourceTree = "<group>"; };
+		89D79B042C36633100C75887 /* CustomButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonLabel.swift; sourceTree = "<group>"; };
 		89E244382C32079100DD0511 /* DropDownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownView.swift; sourceTree = "<group>"; };
 		89E4754A2C2B829A0076C46D /* locale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = locale.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89E4754D2C2B829A0076C46D /* localeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = localeApp.swift; sourceTree = "<group>"; };
@@ -95,7 +112,8 @@
 		8972A5D12C324ECF006F28B8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				89E244352C30733600DD0511 /* MapView.swift */,
+				894031162C374ADD009AF317 /* MapView.swift */,
+				8940311A2C39ABA5009AF317 /* PostDetailsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -133,6 +151,17 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		89D79AEA2C36447200C75887 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				89D79AEB2C36448E00C75887 /* Manrope-Bold.ttf */,
+				89D79AEE2C36448E00C75887 /* Manrope-Light.ttf */,
+				89D79AF02C36448E00C75887 /* Manrope-Regular.ttf */,
+				89D79AEF2C36448E00C75887 /* Manrope-Medium.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		89E244342C30718500DD0511 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +175,9 @@
 			children = (
 				89E244382C32079100DD0511 /* DropDownView.swift */,
 				8972A5D92C32587C006F28B8 /* LandmarkListView.swift */,
+				89D79AE62C363F9900C75887 /* CustomTextFieldView.swift */,
+				89D79B022C365E9D00C75887 /* CustomSecureFieldView.swift */,
+				89D79B042C36633100C75887 /* CustomButtonLabel.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -169,6 +201,8 @@
 		89E4754C2C2B829A0076C46D /* locale */ = {
 			isa = PBXGroup;
 			children = (
+				89D79B012C364F2100C75887 /* Info.plist */,
+				89D79AEA2C36447200C75887 /* Fonts */,
 				89E4755D2C2BC6320076C46D /* App */,
 				89E244372C32078200DD0511 /* Components */,
 				89E4755F2C2BC6470076C46D /* Core */,
@@ -326,8 +360,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89D79AFA2C36448E00C75887 /* Manrope-Light.ttf in Resources */,
+				89D79AF72C36448E00C75887 /* Manrope-Bold.ttf in Resources */,
 				89E475552C2B829C0076C46D /* Preview Assets.xcassets in Resources */,
+				89D79AFC2C36448E00C75887 /* Manrope-Regular.ttf in Resources */,
 				89E475522C2B829C0076C46D /* Assets.xcassets in Resources */,
+				89D79AFB2C36448E00C75887 /* Manrope-Medium.ttf in Resources */,
 				89E4756D2C2BD09A0076C46D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,17 +378,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				89E475672C2BCA050076C46D /* SignUpView.swift in Sources */,
-				89E244362C30733600DD0511 /* MapView.swift in Sources */,
 				89E4755C2C2BC50D0076C46D /* LoginView.swift in Sources */,
 				8972A5D42C324F1E006F28B8 /* LocationManager.swift in Sources */,
 				8972A5E52C32786C006F28B8 /* Post.swift in Sources */,
 				89E4756B2C2BCCE40076C46D /* User.swift in Sources */,
 				8972A5D62C3255F3006F28B8 /* MapSearchView.swift in Sources */,
+				89D79B032C365E9D00C75887 /* CustomSecureFieldView.swift in Sources */,
+				894031172C374ADD009AF317 /* MapView.swift in Sources */,
 				89D79AE52C3353D300C75887 /* MKCoordinateRegion+Extensions.swift in Sources */,
 				8972A5E32C3277A3006F28B8 /* PostViewModel.swift in Sources */,
 				89E475782C2BD2E90076C46D /* AuthViewModel.swift in Sources */,
+				89D79B052C36633100C75887 /* CustomButtonLabel.swift in Sources */,
 				89E244392C32079100DD0511 /* DropDownView.swift in Sources */,
+				89D79AE72C363F9900C75887 /* CustomTextFieldView.swift in Sources */,
 				89E475692C2BCC070076C46D /* ProfileView.swift in Sources */,
+				8940311B2C39ABA5009AF317 /* PostDetailsView.swift in Sources */,
 				8972A5D82C3257D8006F28B8 /* LocalSearchService.swift in Sources */,
 				89E475502C2B829A0076C46D /* ContentView.swift in Sources */,
 				8972A5CF2C322496006F28B8 /* PostView.swift in Sources */,
@@ -415,7 +457,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -472,7 +514,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -493,6 +535,7 @@
 				DEVELOPMENT_TEAM = 33YLX6JK4G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = locale/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Show User Location When In Use";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -509,7 +552,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -524,6 +567,7 @@
 				DEVELOPMENT_TEAM = 33YLX6JK4G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = locale/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Show User Location When In Use";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -540,7 +584,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -20,28 +20,35 @@ struct ContentView: View {
                         .environmentObject(PostViewModel())
                         .tabItem {
                             Image(systemName: "map")
-                            Text("Map")
+                            Text("map")
+                                .font(Font.custom("Manrope-Light", size: 8))
                         }
+                        .toolbarBackground(.black, for: .tabBar)
                         .tag(1)
                     PostView(tabSelection: $tabSelection)
                         .environmentObject(PostViewModel())
                         .environmentObject(LocalSearchService())
                         .tabItem {
                             Image(systemName: "plus")
-                            Text("Post")
+                            Text("post")
+                                .font(Font.custom("Manrope-Light", size: 8))
                         }
+                        .toolbarBackground(.black, for: .tabBar)
                         .tag(2)
                     ProfileView(tabSelection: $tabSelection)
                         .tabItem {
                             Image(systemName: "person.fill")
-                            Text("Profile")
+                            Text("profile")
+                                .font(Font.custom("Manrope-Light", size: 8))
                         }
+                        .toolbarBackground(.black, for: .tabBar)
                         .tag(3)
                 }
             } else {
                 LoginView()
             }
         }
+        .preferredColorScheme(.dark)
     }
 }
 

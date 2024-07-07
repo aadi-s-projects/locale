@@ -11,16 +11,22 @@ import MapKit
 struct LandmarkListView: View {
     
     @EnvironmentObject var localSearchService: LocalSearchService
+    @Environment(\.colorScheme) private var scheme
+
     
     var body: some View {
         VStack {
             List(localSearchService.landmarks) { landmark in
                 VStack(alignment: .leading) {
                     Text(landmark.name)
+                        .foregroundStyle(.white)
+                        .font(Font.custom("Manrope-Light", size: 18))
                     Text(landmark.title)
                         .opacity(0.5)
+                        .foregroundStyle(.white)
+                        .font(Font.custom("Manrope-Light", size: 16))
                 }
-                .listRowBackground(localSearchService.landmark == landmark ? Color(UIColor.lightGray): Color.white)
+                .listRowBackground(localSearchService.landmark == landmark ? Color(UIColor.darkGray): Color.black)
                 .onTapGesture {
                     localSearchService.landmark = landmark
                     withAnimation {
@@ -28,10 +34,11 @@ struct LandmarkListView: View {
                     }
                 }
             }
+            .listStyle(PlainListStyle())
         }
     }
 }
 
 #Preview {
-    LandmarkListView().environmentObject(LocalSearchService())
+    MapSearchView(selectedLandmark: .constant(nil)).environmentObject(LocalSearchService())
 }

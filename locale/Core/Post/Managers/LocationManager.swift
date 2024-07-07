@@ -8,11 +8,13 @@
 import Foundation
 import CoreLocation
 import MapKit
+import _MapKit_SwiftUI
 
 class LocationManager: NSObject, ObservableObject {
     
     let locationManager = CLLocationManager()
-    @Published var region =  MKCoordinateRegion.defaultRegion()
+    @Published var region : MKCoordinateRegion = MKCoordinateRegion.defaultRegion()
+    @Published var cameraPosition : MapCameraPosition = .region(MKCoordinateRegion.defaultRegion())
     
     override init() {
         super.init()
@@ -38,6 +40,7 @@ extension LocationManager: CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             guard let location = locationManager.location else { return }
             region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25))
+            cameraPosition = .region(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25)))
         @unknown default:
             break
         }
@@ -54,6 +57,7 @@ extension LocationManager: CLLocationManagerDelegate {
         
         DispatchQueue.main.async { [weak self] in
             self?.region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25))
+            self?.cameraPosition = .region(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25)))
         }
     }
     

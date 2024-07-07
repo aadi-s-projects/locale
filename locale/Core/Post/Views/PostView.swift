@@ -12,7 +12,7 @@ import FirebaseFirestore
 
 struct PostView: View {
     @State private var search: String = ""
-    @State private var tag: String = ""
+    @State private var tag: String? = nil
     @State private var description: String = ""
     @EnvironmentObject var localSearchService:  LocalSearchService
     @State private var selectedLandmark : Landmark?
@@ -23,56 +23,63 @@ struct PostView: View {
     
     var body: some View {
         NavigationStack {
-            VStack { 
+            VStack {
                 HStack{
-                    Text("Post")
-                        .font(.largeTitle)
+                    Text("post")
+                        .font(Font.custom("Manrope-Bold", size: 30))
                         .fontWeight(.bold)
-                        .padding(.horizontal)
                     Spacer()
                 }
-                Form {
+                .padding(.bottom)
+                
+                NavigationLink {
+                    MapSearchView(selectedLandmark: $selectedLandmark)
+                        .environmentObject(LocalSearchService())
+                        .environmentObject(PostViewModel())
+                        .navigationBarBackButtonHidden()
+                } label: {
                     if selectedLandmark != nil {
-                        NavigationLink {
-                            MapSearchView(selectedLandmark: $selectedLandmark)
-                                .environmentObject(LocalSearchService())
-                                .environmentObject(PostViewModel())
-                                .navigationBarBackButtonHidden()
-                        } label: {
-                            Text(selectedLandmark!.name)
-                        }
+                        CustomButtonLabel(label: selectedLandmark!.name, textSize: 18, primary: false)
                     } else {
-                        NavigationLink("Select Address") {
-                            MapSearchView(selectedLandmark: $selectedLandmark)
-                                .environmentObject(LocalSearchService())
-                                .environmentObject(PostViewModel())
-                                .navigationBarBackButtonHidden()
-                        }
+                        CustomButtonLabel(label: "select location", textSize: 18)
                     }
-                    TextField("Vibe", text: $tag)
-                    TextField("Description", text: $description, axis: .vertical)
-                        .lineLimit(5)
-                    Button("Post") {
-                        let geoPoint = GeoPoint(latitude: selectedLandmark!.coordinate.latitude, longitude: selectedLandmark!.coordinate.longitude)
-                        let post = Post(name: selectedLandmark!.name, title: selectedLandmark!.title, coordinate: geoPoint, tag: tag, description: description)
-                        Task {
-                            try await self.viewModel.addPost(post: post)
-                            tabSelection = 1
-                        }
-                    }
-                    .disabled(!formIsValid)
-                    .opacity(formIsValid ? 1.0 : 0.5)
                 }
-                .cornerRadius(8)
-                .scrollDisabled(true)
+                .padding(.bottom, 5)
+                
+                DropDownView(hint: "select vibe", options: ["chill", "busy", "day", "night"], selection: $tag)
+                    .padding(.bottom, 5)
+                
+                CustomTextFieldView(titleKey: "description", textSize: 18, textEditor: true, text: $description)
+                    .padding(.bottom, 5)
+                
+                Button {
+                    
+                } label: {
+                    CustomButtonLabel(label: "select image", textSize: 18)
+                }
+                
+                Button {
+                    let geoPoint = GeoPoint(latitude: selectedLandmark!.coordinate.latitude, longitude: selectedLandmark!.coordinate.longitude)
+                    let post = Post(name: selectedLandmark!.name, title: selectedLandmark!.title, coordinate: geoPoint, tag: tag!.lowercased(), description: description.lowercased())
+                    Task {
+                        try await self.viewModel.addPost(post: post)
+                        tabSelection = 1
+                    }
+                } label: {
+                    CustomButtonLabel(label: "post", textSize: 18, disabled: !formIsValid)
+                }
+                .disabled(!formIsValid)
+                .padding(.bottom)
             }
+            .padding()
         }
+        .preferredColorScheme(.dark)
     }
 }
 
 extension PostView: AuthenticationFormProtocol {
     var formIsValid: Bool {
-        return selectedLandmark != nil && !description.isEmpty
+        return selectedLandmark != nil && !description.isEmpty && tag != nil
     }
 }
 

@@ -15,36 +15,60 @@ struct LoginView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text("Log In")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                Spacer()
                 
-                Form {
-                    TextField("Email", text: $email)
-                        .autocapitalization(.none)
-                    SecureField("Password", text: $password)
-                    Button("Log In") {
-                        Task {
-                            try await viewModel.signIn(withEmail: email, password: password)
-                        }
-                    }
-                    .disabled(!formIsValid)
-                    .opacity(formIsValid ? 1.0 : 0.5)
+                HStack{
+                    Text("welcome to locale")
+                        .font(Font.custom("Manrope-Bold", size: CGFloat(30)))
+                    Spacer()
+                    Image(systemName: "mappin.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30)
+                        .padding(.horizontal, 5)
                 }
-                .cornerRadius(8)
-                .scrollDisabled(true)
+                .padding(.bottom)
                 
+                CustomTextFieldView(titleKey: "email", textSize: 18, text: $email)
+                    .padding(.bottom, 5)
+                    .autocorrectionDisabled()
+                CustomSecureFieldView(titleKey: "password", textSize: 18, text: $password)
+                    .padding(.bottom, 5)
+                    .autocorrectionDisabled()
+                
+                Button {
+                    Task {
+                        try await viewModel.signIn(withEmail: email, password: password)
+                    }
+                } label: {
+                    CustomButtonLabel(label: "log in", textSize: 18, disabled: !formIsValid)
+                }
+                .disabled(!formIsValid)
+                
+                Spacer()
                 
                 NavigationLink {
                     SignUpView()
                         .navigationBarBackButtonHidden()
                 } label: {
-                    Text("Sign Up")
+                    CustomButtonLabel(label: "sign up", textSize: 18, primary: false)
                 }
             }
             .padding()
         }
+        .preferredColorScheme(.dark)
     }
+    /*
+    init() {
+        for family in UIFont.familyNames {
+            print(family)
+            
+            for fontName in UIFont.fontNames(forFamilyName: family){
+                print("--\(fontName)")
+            }
+        }
+    }
+     */
 }
 
 extension LoginView: AuthenticationFormProtocol {
