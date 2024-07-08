@@ -7,6 +7,8 @@
 
 import SwiftUI
 import MapKit
+import FirebaseFirestoreSwift
+import PhotosUI
 
 struct MapView: View {
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
@@ -18,6 +20,8 @@ struct MapView: View {
     @Binding var tabSelection: Int
     
     @State private var selectedPost : Post?
+    
+    @FirestoreQuery(collectionPath: "posts") var photos: [Photo]
     
     var body: some View {
         NavigationStack {
@@ -67,7 +71,10 @@ struct MapView: View {
                 .background(.black)
             }
             .sheet(item: $selectedPost) { post in
-                PostDetailsView(post: post)
+                PostDetailsView(post: post, photos: photos)
+                    .onAppear {
+                        $photos.path = "posts/\(post.id!)/photos"
+                    }
             }
         }
         .preferredColorScheme(.dark)

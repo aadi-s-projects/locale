@@ -9,17 +9,24 @@ import SwiftUI
 import MapKit
 import Firebase
 import FirebaseFirestore
+import PhotosUI
 
 struct PostView: View {
-    @State private var search: String = ""
     @State private var tag: String? = nil
     @State private var description: String = ""
+    
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
     @EnvironmentObject var localSearchService:  LocalSearchService
     @State private var selectedLandmark : Landmark?
     
-    @EnvironmentObject var viewModel : PostViewModel
+    @EnvironmentObject var postViewModel : PostViewModel
     
     @Binding var tabSelection: Int
+    
+    @StateObject var imagePicker = ImagePicker()
+    let columns = [GridItem(.adaptive(minimum: 100))]
+    @State var loading = false
     
     var body: some View {
         NavigationStack {
@@ -52,17 +59,46 @@ struct PostView: View {
                 CustomTextFieldView(titleKey: "description", textSize: 18, textEditor: true, text: $description)
                     .padding(.bottom, 5)
                 
-                Button {
-                    
-                } label: {
-                    CustomButtonLabel(label: "select image", textSize: 18)
+                PhotosPicker(selection: $imagePicker.imageSelections, maxSelectionCount: 5, matching: .images, photoLibrary: .shared()) {
+                    if imagePicker.images.isEmpty {
+                        CustomButtonLabel(label: "select images", textSize: 18)
+                    } else {
+                        CustomButtonLabel(label: "reselect images", textSize: 18, primary: false)
+                    }
+                }
+                .padding(.bottom, 5)
+                
+                if !imagePicker.images.isEmpty {
+                    ScrollView {
+                        LazyVGrid (columns: columns, spacing: 20) {
+                            ForEach(0..<imagePicker.images.count, id: \.self) { index in
+                                imagePicker.images[index]
+                                    .resizable()
+                                    .scaledToFit()
+                            }
+                        }
+                        .padding(5)
+                    }
+                    .padding(.vertical, 5)
+                    .overlay{
+                        RoundedRectangle(cornerRadius: 0)
+                            .stroke(Color(UIColor.systemGray4), style: StrokeStyle(lineWidth: 0.5, dash: [10, 5]))
+                    }
                 }
                 
                 Button {
+                    loading = true
                     let geoPoint = GeoPoint(latitude: selectedLandmark!.coordinate.latitude, longitude: selectedLandmark!.coordinate.longitude)
-                    let post = Post(name: selectedLandmark!.name, title: selectedLandmark!.title, coordinate: geoPoint, tag: tag!.lowercased(), description: description.lowercased())
+                    var post = Post(userCreator: authViewModel.currentUser!.fullname, name: selectedLandmark!.name, title: selectedLandmark!.title, coordinate: geoPoint, tag: tag!.lowercased(), description: description)
                     Task {
-                        try await self.viewModel.addPost(post: post)
+                        try await self.postViewModel.addPost(post: post)
+                        try await self.postViewModel.saveImagesToPost(post: post, images: imagePicker.selectedUIImages)
+                        selectedLandmark = nil
+                        tag = nil
+                        description = ""
+                        imagePicker.images = []
+                        imagePicker.selectedUIImages = []
+                        loading = false
                         tabSelection = 1
                     }
                 } label: {
@@ -79,7 +115,7 @@ struct PostView: View {
 
 extension PostView: AuthenticationFormProtocol {
     var formIsValid: Bool {
-        return selectedLandmark != nil && !description.isEmpty && tag != nil
+        return selectedLandmark != nil && !description.isEmpty && tag != nil && !loading
     }
 }
 
@@ -87,4 +123,5 @@ extension PostView: AuthenticationFormProtocol {
     PostView(tabSelection: .constant(2))
         .environmentObject(LocalSearchService())
         .environmentObject(PostViewModel())
+        .environmentObject(AuthViewModel())
 }

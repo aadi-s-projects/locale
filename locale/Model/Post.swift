@@ -10,7 +10,8 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 struct Post: Identifiable, Codable, Hashable {
-    @DocumentID var id: String? = UUID().uuidString
+    @DocumentID var id : String? = UUID().uuidString
+    var userCreator : String
     var name : String
     var title : String
     var coordinate : GeoPoint

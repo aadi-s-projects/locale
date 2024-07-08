@@ -8,10 +8,13 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseStorage
+import PhotosUI
 
 @MainActor
 class PostViewModel : ObservableObject {
     @Published var posts = [Post]()
+    //@Published var imageURLs : [String] = []
     
     private var db = Firestore.firestore()
     
@@ -23,9 +26,8 @@ class PostViewModel : ObservableObject {
                 posts.append(post)
             }
         } catch {
-          print("Error getting documents: \(error)")
+            print("Error getting documents: \(error)")
         }
-
     }
     
     func addPost(post: Post) async throws {
@@ -36,4 +38,79 @@ class PostViewModel : ObservableObject {
             print("DEBUG: Failed to create post with error \(error.localizedDescription)")
         }
     }
+    
+    func saveImageToPost(post: Post, image: UIImage) async throws
+    {
+        guard let postID = post.id else { return }
+        let photoName = UUID().uuidString
+        let storage = Storage.storage()
+        let storageRef = storage.reference().child("\(postID)/\(photoName)")
+        
+        guard let resizedImage = image.jpegData(compressionQuality: 0.5) else { return }
+        
+        var imageURLString = ""
+        
+        do {
+            let _ = try await storageRef.putDataAsync(resizedImage, metadata: nil)
+            do {
+                let imageURL = try await storageRef.downloadURL()
+                imageURLString = "\(imageURL)"
+            } catch {
+                print(error.localizedDescription)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        let collectionString = "posts/\(postID)/photos"
+        
+        do {
+            let newPhoto = Photo(imageURLString: imageURLString)
+            let encodedPhoto = try Firestore.Encoder().encode(newPhoto)
+            try await db.collection(collectionString).document(photoName).setData(encodedPhoto)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func saveImagesToPost(post: Post, images: [UIImage]) async throws
+    {
+        for image in images {
+            try await saveImageToPost(post: post, image: image)
+        }
+    }
+    
+    /*
+    func addImagesToStorage(post: Post, images: [UIImage]) {
+        if !images.isEmpty {
+            guard let postID = post.id else { return }
+            let storage = Storage.storage()
+            for image in images {
+                let photoName = UUID().uuidString
+                let storageRef = storage.reference().child("\(postID)/\(photoName)")
+                guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
+                
+                storageRef.putData(imageData, metadata: nil) { metadata, err in
+                    if let err {
+                        print(err)
+                        return
+                    }
+                    
+                    storageRef.downloadURL{ url, err in
+                        if let err {
+                            print(err)
+                            return
+                        }
+                        
+                        if url != nil {
+                            print(url!.absoluteString)
+                            self.imageURLs.append(url!.absoluteString)
+                            print(self.imageURLs)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    */
 }
