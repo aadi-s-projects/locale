@@ -12,7 +12,7 @@ import FirebaseFirestore
 import PhotosUI
 
 struct PostView: View {
-    @State private var tag: String? = nil
+    @State private var tags: [String] = []
     @State private var description: String = ""
     
     @EnvironmentObject var authViewModel: AuthViewModel
@@ -53,11 +53,13 @@ struct PostView: View {
                 }
                 .padding(.bottom, 5)
                 
-                DropDownView(hint: "select vibe", options: ["chill", "busy", "day", "night"], selection: $tag)
+                DropDownView(hint: "select vibe", options: postViewModel.universalData.validTags, selections: $tags)
                     .padding(.bottom, 5)
+                    .zIndex(2)
                 
                 CustomTextFieldView(titleKey: "description", textSize: 18, textEditor: true, text: $description)
                     .padding(.bottom, 5)
+                    .zIndex(1)
                 
                 PhotosPicker(selection: $imagePicker.imageSelections, maxSelectionCount: 5, matching: .images, photoLibrary: .shared()) {
                     if imagePicker.images.isEmpty {
@@ -89,12 +91,12 @@ struct PostView: View {
                 Button {
                     loading = true
                     let geoPoint = GeoPoint(latitude: selectedLandmark!.coordinate.latitude, longitude: selectedLandmark!.coordinate.longitude)
-                    var post = Post(userCreator: authViewModel.currentUser!.fullname, name: selectedLandmark!.name, title: selectedLandmark!.title, coordinate: geoPoint, tag: tag!.lowercased(), description: description)
+                    let post = Post(userCreator: authViewModel.currentUser!.fullname, name: selectedLandmark!.name, title: selectedLandmark!.title, coordinate: geoPoint, tags: tags.sorted(), description: description)
                     Task {
                         try await self.postViewModel.addPost(post: post)
                         try await self.postViewModel.saveImagesToPost(post: post, images: imagePicker.selectedUIImages)
                         selectedLandmark = nil
-                        tag = nil
+                        tags = []
                         description = ""
                         imagePicker.images = []
                         imagePicker.selectedUIImages = []
@@ -109,13 +111,18 @@ struct PostView: View {
             }
             .padding()
         }
+        .onAppear() {
+            Task {
+                await postViewModel.fetchUniversalData()
+            }
+        }
         .preferredColorScheme(.dark)
     }
 }
 
 extension PostView: AuthenticationFormProtocol {
     var formIsValid: Bool {
-        return selectedLandmark != nil && !description.isEmpty && tag != nil && !loading
+        return selectedLandmark != nil && !description.isEmpty && !tags.isEmpty && !loading
     }
 }
 

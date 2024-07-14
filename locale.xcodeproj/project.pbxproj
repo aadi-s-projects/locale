@@ -12,6 +12,9 @@
 		8940311F2C3B3E02009AF317 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8940311E2C3B3E02009AF317 /* ImagePicker.swift */; };
 		894031232C3B4B39009AF317 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 894031222C3B4B39009AF317 /* FirebaseStorage */; };
 		894031252C3B867E009AF317 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894031242C3B867E009AF317 /* Photo.swift */; };
+		894031272C3CA974009AF317 /* PostComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894031262C3CA974009AF317 /* PostComment.swift */; };
+		894031292C3CFE79009AF317 /* CommentDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894031282C3CFE79009AF317 /* CommentDisplayView.swift */; };
+		8940312D2C3F4A97009AF317 /* PostNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8940312C2C3F4A96009AF317 /* PostNavigationView.swift */; };
 		8972A5CF2C322496006F28B8 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8972A5CE2C322496006F28B8 /* PostView.swift */; };
 		8972A5D42C324F1E006F28B8 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8972A5D32C324F1E006F28B8 /* LocationManager.swift */; };
 		8972A5D62C3255F3006F28B8 /* MapSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8972A5D52C3255F3006F28B8 /* MapSearchView.swift */; };
@@ -20,6 +23,9 @@
 		8972A5DC2C3258CD006F28B8 /* Landmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8972A5DB2C3258CD006F28B8 /* Landmark.swift */; };
 		8972A5E32C3277A3006F28B8 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8972A5E22C3277A3006F28B8 /* PostViewModel.swift */; };
 		8972A5E52C32786C006F28B8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8972A5E42C32786C006F28B8 /* Post.swift */; };
+		89A8A4B62C40FB2400ED27DF /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A8A4B52C40FB2400ED27DF /* TestView.swift */; };
+		89A8A4B92C41CD0600ED27DF /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 89A8A4B82C41CD0600ED27DF /* WrappingHStack */; };
+		89BBC78C2C434AF800E18A9F /* UniversalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BBC78B2C434AF700E18A9F /* UniversalData.swift */; };
 		89D79AE52C3353D300C75887 /* MKCoordinateRegion+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D79AE42C3353D300C75887 /* MKCoordinateRegion+Extensions.swift */; };
 		89D79AE72C363F9900C75887 /* CustomTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D79AE62C363F9900C75887 /* CustomTextFieldView.swift */; };
 		89D79AF72C36448E00C75887 /* Manrope-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89D79AEB2C36448E00C75887 /* Manrope-Bold.ttf */; };
@@ -49,6 +55,9 @@
 		8940311A2C39ABA5009AF317 /* PostDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsView.swift; sourceTree = "<group>"; };
 		8940311E2C3B3E02009AF317 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		894031242C3B867E009AF317 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		894031262C3CA974009AF317 /* PostComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostComment.swift; sourceTree = "<group>"; };
+		894031282C3CFE79009AF317 /* CommentDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDisplayView.swift; sourceTree = "<group>"; };
+		8940312C2C3F4A96009AF317 /* PostNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNavigationView.swift; sourceTree = "<group>"; };
 		8972A5CE2C322496006F28B8 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		8972A5D32C324F1E006F28B8 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		8972A5D52C3255F3006F28B8 /* MapSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchView.swift; sourceTree = "<group>"; };
@@ -57,6 +66,8 @@
 		8972A5DB2C3258CD006F28B8 /* Landmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Landmark.swift; sourceTree = "<group>"; };
 		8972A5E22C3277A3006F28B8 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		8972A5E42C32786C006F28B8 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		89A8A4B52C40FB2400ED27DF /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		89BBC78B2C434AF700E18A9F /* UniversalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalData.swift; sourceTree = "<group>"; };
 		89D79AE42C3353D300C75887 /* MKCoordinateRegion+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKCoordinateRegion+Extensions.swift"; sourceTree = "<group>"; };
 		89D79AE62C363F9900C75887 /* CustomTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextFieldView.swift; sourceTree = "<group>"; };
 		89D79AEB2C36448E00C75887 /* Manrope-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Bold.ttf"; sourceTree = "<group>"; };
@@ -89,6 +100,7 @@
 				894031232C3B4B39009AF317 /* FirebaseStorage in Frameworks */,
 				89E475722C2BD1A90076C46D /* FirebaseFirestore in Frameworks */,
 				89E475742C2BD1A90076C46D /* FirebaseFirestoreSwift in Frameworks */,
+				89A8A4B92C41CD0600ED27DF /* WrappingHStack in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +132,7 @@
 			children = (
 				894031162C374ADD009AF317 /* MapView.swift */,
 				8940311A2C39ABA5009AF317 /* PostDetailsView.swift */,
+				8940312C2C3F4A96009AF317 /* PostNavigationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -185,6 +198,8 @@
 				89D79AE62C363F9900C75887 /* CustomTextFieldView.swift */,
 				89D79B022C365E9D00C75887 /* CustomSecureFieldView.swift */,
 				89D79B042C36633100C75887 /* CustomButtonLabel.swift */,
+				894031282C3CFE79009AF317 /* CommentDisplayView.swift */,
+				89A8A4B52C40FB2400ED27DF /* TestView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -256,6 +271,8 @@
 				8972A5DB2C3258CD006F28B8 /* Landmark.swift */,
 				8972A5E42C32786C006F28B8 /* Post.swift */,
 				894031242C3B867E009AF317 /* Photo.swift */,
+				894031262C3CA974009AF317 /* PostComment.swift */,
+				89BBC78B2C434AF700E18A9F /* UniversalData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -323,6 +340,7 @@
 				89E475712C2BD1A90076C46D /* FirebaseFirestore */,
 				89E475732C2BD1A90076C46D /* FirebaseFirestoreSwift */,
 				894031222C3B4B39009AF317 /* FirebaseStorage */,
+				89A8A4B82C41CD0600ED27DF /* WrappingHStack */,
 			);
 			productName = locale;
 			productReference = 89E4754A2C2B829A0076C46D /* locale.app */;
@@ -354,6 +372,7 @@
 			mainGroup = 89E475412C2B829A0076C46D;
 			packageReferences = (
 				89E4756E2C2BD1A90076C46D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				89A8A4B72C41CD0600ED27DF /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			productRefGroup = 89E4754B2C2B829A0076C46D /* Products */;
 			projectDirPath = "";
@@ -386,14 +405,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89A8A4B62C40FB2400ED27DF /* TestView.swift in Sources */,
 				894031252C3B867E009AF317 /* Photo.swift in Sources */,
 				89E475672C2BCA050076C46D /* SignUpView.swift in Sources */,
+				894031272C3CA974009AF317 /* PostComment.swift in Sources */,
 				89E4755C2C2BC50D0076C46D /* LoginView.swift in Sources */,
 				8972A5D42C324F1E006F28B8 /* LocationManager.swift in Sources */,
 				8972A5E52C32786C006F28B8 /* Post.swift in Sources */,
+				89BBC78C2C434AF800E18A9F /* UniversalData.swift in Sources */,
 				89E4756B2C2BCCE40076C46D /* User.swift in Sources */,
+				894031292C3CFE79009AF317 /* CommentDisplayView.swift in Sources */,
 				8972A5D62C3255F3006F28B8 /* MapSearchView.swift in Sources */,
 				89D79B032C365E9D00C75887 /* CustomSecureFieldView.swift in Sources */,
+				8940312D2C3F4A97009AF317 /* PostNavigationView.swift in Sources */,
 				894031172C374ADD009AF317 /* MapView.swift in Sources */,
 				89D79AE52C3353D300C75887 /* MKCoordinateRegion+Extensions.swift in Sources */,
 				8972A5E32C3277A3006F28B8 /* PostViewModel.swift in Sources */,
@@ -623,6 +647,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		89A8A4B72C41CD0600ED27DF /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dkk/WrappingHStack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.11;
+			};
+		};
 		89E4756E2C2BD1A90076C46D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -638,6 +670,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 89E4756E2C2BD1A90076C46D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		89A8A4B82C41CD0600ED27DF /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 89A8A4B72C41CD0600ED27DF /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
 		};
 		89E4756F2C2BD1A90076C46D /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

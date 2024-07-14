@@ -6,98 +6,108 @@
 //
 
 import SwiftUI
+import WrappingHStack
 
 struct DropDownView: View {
     var hint: String
     var options: [String]
-    var anchor: Anchor = .bottom
-    var maxWidth: CGFloat = UIScreen.main.bounds.width - 25
-    @Binding var selection: String?
+    @Binding var selections: [String]
     @State private var showOptions: Bool = false
     @Environment(\.colorScheme) private var scheme
     @SceneStorage("drop_down_zindex") private var index = 1000.0
     @State private var zIndex: Double = 1000.0
     
     var body: some View {
-        GeometryReader {
-            let size = $0.size
-            VStack(spacing: 0) {
-                if showOptions && anchor == .top {
-                    OptionsView()
-                }
-                
-                HStack(spacing: 0) {
-                    Text(selection ?? hint)
-                        .foregroundStyle(selection == nil ? .gray : .primary)
-                        .lineLimit(1)
-                        .font(Font.custom("Manrope-Light", size: 18))
-                    
-                    Spacer(minLength: 0)
-                    
-                    Image(systemName: "chevron.down")
-                        .font(.title3)
-                        .foregroundColor(.gray)
-                        .rotationEffect(.init(degrees: showOptions ? -180 : 0))
-                }
-                .padding(.horizontal)
-                .frame(width: size.width, height: size.height)
-                .contentShape(.rect)
-                .onTapGesture {
-                    index += 1
-                    zIndex = index
-                    withAnimation(.snappy) {
-                        showOptions.toggle()
+        VStack {
+            WrappingHStack(selections.indices, id: \.self, spacing: .constant(0)) { index in
+                Group {
+                    Button {
+                        selections.remove(at: index)
+                    } label: {
+                        HStack {
+                            Text("\(selections[index])  X")
+                                .font(Font.custom("Manrope-Light", size: 18))
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(.white)
+                        .foregroundStyle(.black)
                     }
                 }
-                .background(.black)
-                .zIndex(10)
-                
-                if showOptions && anchor == .bottom {
-                    OptionsView()
-                }
+                .padding(4)
             }
-            .clipped()
-            .contentShape(.rect)
-            .background(.black, in: .rect(cornerRadius: 0))
-            .frame(height: size.height, alignment: anchor == .top ? .bottom : .top)
-            .border(Color(UIColor.systemGray4), width: 0.5)
             
+            GeometryReader {
+                let size = $0.size
+                VStack(spacing: 0) {
+                    HStack(spacing: 0) {
+                        Text(hint)
+                            .foregroundStyle(.gray)
+                            .lineLimit(1)
+                            .font(Font.custom("Manrope-Light", size: 18))
+                        
+                        Spacer(minLength: 0)
+                        
+                        Image(systemName: "chevron.down")
+                            .font(.title3)
+                            .foregroundColor(.gray)
+                            .rotationEffect(.init(degrees: showOptions ? -180 : 0))
+                    }
+                    .padding(.horizontal)
+                    .frame(width: size.width, height: size.height)
+                    .contentShape(.rect)
+                    .onTapGesture {
+                        index += 1
+                        zIndex = index
+                        withAnimation(.snappy) {
+                            showOptions.toggle()
+                        }
+                    }
+                    .background(.black)
+                    .zIndex(10)
+                    
+                    if showOptions && !(selections.sorted() == options.sorted()) {
+                        OptionsView()
+                    }
+                }
+                .clipped()
+                .contentShape(.rect)
+                .background(.black, in: .rect(cornerRadius: 0))
+                .frame(height: size.height, alignment: .top)
+                .border(Color(UIColor.systemGray4), width: 0.5)
+                
+            }
+            .frame(height: 60)
+            .zIndex(zIndex)
         }
-        .frame(height: 60)
-        .zIndex(zIndex)
     }
     
     @ViewBuilder
     func OptionsView() -> some View {
         VStack(spacing: 0) {
-            ForEach(options, id: \.self) { option in
-                VStack{
-                    HStack(spacing: 0) {
-                        Text(option.lowercased())
-                            .font(Font.custom("Manrope-Light", size: 18))
-                        
-                        Spacer()
-                        
-                        Image(systemName: "checkmark")
-                            .opacity(selection == option ? 1 : 0)
-                            .font(.caption)
-                    }
-                    .padding()
-                }
-                .foregroundStyle(selection == option ? Color.primary : Color.gray)
-                .animation(.none, value: selection)
-                .frame(height: 60)
-                .contentShape(.rect)
-                .onTapGesture {
-                    withAnimation(.snappy) {
-                        selection = option
-                        showOptions = false
+            WrappingHStack(options, id: \.self, spacing: .constant(0)) { option in
+                if !selections.contains(option) {
+                    Button {
+                        selections.append(option)
+                    } label: {
+                        Group {
+                            HStack {
+                                Text("+ \(option.lowercased())")
+                                    .font(Font.custom("Manrope-Light", size: 18))
+                            }
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 5)
+                            .background(.white)
+                            .foregroundStyle(.black)
+                        }
+                        .padding(4)
                     }
                 }
-                .border(Color(UIColor.systemGray4), width: 0.5)
             }
         }
-        .transition(.move(edge: anchor == .top ? .bottom : .top))
+        .padding()
+        .border(Color(UIColor.systemGray4), width: 0.5)
+        .transition(.move(edge: .top))
     }
     
     enum Anchor {
@@ -107,5 +117,14 @@ struct DropDownView: View {
 }
 
 #Preview {
-    MapView(tabSelection : .constant(1))
+    struct BindingViewExamplePreviewContainer : View {
+        @State private var selections : [String] = []
+        
+        var body: some View {
+            DropDownView(hint: "hint", options: ["test1", "test2", "test3", "test4", "test5", "test6"], selections: $selections)
+                .padding()
+        }
+    }
+
+    return BindingViewExamplePreviewContainer()
 }

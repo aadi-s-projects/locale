@@ -15,6 +15,6 @@ struct Post: Identifiable, Codable, Hashable {
     var name : String
     var title : String
     var coordinate : GeoPoint
-    var tag : String
+    var tags : [String]
     var description : String
 }

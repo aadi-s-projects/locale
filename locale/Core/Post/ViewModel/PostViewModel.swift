@@ -14,8 +14,8 @@ import PhotosUI
 @MainActor
 class PostViewModel : ObservableObject {
     @Published var posts = [Post]()
-    //@Published var imageURLs : [String] = []
-    
+    @Published var universalData : UniversalData = UniversalData(validTags: ["loading tags"])
+
     private var db = Firestore.firestore()
     
     func fetchData() async {
@@ -80,37 +80,28 @@ class PostViewModel : ObservableObject {
         }
     }
     
-    /*
-    func addImagesToStorage(post: Post, images: [UIImage]) {
-        if !images.isEmpty {
-            guard let postID = post.id else { return }
-            let storage = Storage.storage()
-            for image in images {
-                let photoName = UUID().uuidString
-                let storageRef = storage.reference().child("\(postID)/\(photoName)")
-                guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
-                
-                storageRef.putData(imageData, metadata: nil) { metadata, err in
-                    if let err {
-                        print(err)
-                        return
-                    }
-                    
-                    storageRef.downloadURL{ url, err in
-                        if let err {
-                            print(err)
-                            return
-                        }
-                        
-                        if url != nil {
-                            print(url!.absoluteString)
-                            self.imageURLs.append(url!.absoluteString)
-                            print(self.imageURLs)
-                        }
-                    }
-                }
-            }
+    func saveCommentToPost(post: Post, comment: PostComment) async throws
+    {
+        guard let postID = post.id else { return }
+        let collectionString = "posts/\(postID)/comments"
+        
+        do {
+            let encodedComment = try Firestore.Encoder().encode(comment)
+            try await db.collection(collectionString).document(comment.id!).setData(encodedComment)
+        } catch {
+            print(error.localizedDescription)
         }
     }
-    */
+    
+    func fetchUniversalData() async
+    {
+        do {
+            let document = try await db.collection("universalData").document("universalData").getDocument()
+            universalData =  try document.data(as: UniversalData.self)
+            universalData.validTags.sort()
+        } catch {
+            print("Error getting tags from Universal Data: \(error)")
+            universalData = UniversalData(validTags: ["error"])
+        }
+    }
 }

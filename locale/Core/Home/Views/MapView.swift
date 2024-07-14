@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import FirebaseFirestore
 import FirebaseFirestoreSwift
 import PhotosUI
 
@@ -14,22 +15,20 @@ struct MapView: View {
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var visibleRegion: MKCoordinateRegion?
     
-    @State private var selection : String?
-    @EnvironmentObject var viewModel : PostViewModel
+    @State private var selections : [String] = []
+    @EnvironmentObject var postViewModel : PostViewModel
     
     @Binding var tabSelection: Int
     
     @State private var selectedPost : Post?
     
-    @FirestoreQuery(collectionPath: "posts") var photos: [Photo]
-    
     var body: some View {
         NavigationStack {
             Map(position: $position, selection: $selectedPost) {
                 UserAnnotation()
-                if selection != nil {
-                    ForEach(viewModel.posts, id: \.self) { post in
-                        if post.tag == selection {
+                if !selections.isEmpty {
+                    ForEach(postViewModel.posts, id: \.self) { post in
+                        if Set(selections.sorted()).isSubset(of: Set(post.tags)) {
                             Marker(post.name, systemImage: "mappin", coordinate: CLLocationCoordinate2D(latitude: post.coordinate.latitude, longitude: post.coordinate.longitude))
                                 .tag(post)
                         }
@@ -56,10 +55,10 @@ struct MapView: View {
                              Spacer()
                          }
                          .padding(.top)
-                         DropDownView(hint: "select a vibe", options: ["chill", "busy", "day", "night"], selection: $selection)
-                             .onChange(of: selection) { oldValue, newValue in
+                         DropDownView(hint: "select a vibe", options: postViewModel.universalData.validTags, selections: $selections)
+                             .onChange(of: selections) { oldValue, newValue in
                                  Task {
-                                     await self.viewModel.fetchData()
+                                     await self.postViewModel.fetchData()
                                  }
                              }
                              .padding(.top, -10)
@@ -71,10 +70,13 @@ struct MapView: View {
                 .background(.black)
             }
             .sheet(item: $selectedPost) { post in
-                PostDetailsView(post: post, photos: photos)
-                    .onAppear {
-                        $photos.path = "posts/\(post.id!)/photos"
-                    }
+                PostNavigationView(selectedPost: post)
+                    .environmentObject(PostViewModel())
+            }
+        }
+        .onAppear {
+            Task {
+                await postViewModel.fetchUniversalData()
             }
         }
         .preferredColorScheme(.dark)
